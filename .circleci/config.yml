@@ -3,13 +3,13 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: mcr.microsoft.com/azure-cli
+      - image: cimg/azure:2023.07
     steps:
       - run: |
           az login \
               --service-principal \
-              -u "2577519f-b947-41fd-b079-e1414ef4a153" \
-              -t "e28ca1fd-b245-46db-89f1-f70cdcd4daf7" \
+              -u "${AZURE_CLIENT_ID}" \
+              -t "${AZURE_TENANT_ID}" \
               --federated-token "${CIRCLE_OIDC_TOKEN}"
       - run: az vm list
 

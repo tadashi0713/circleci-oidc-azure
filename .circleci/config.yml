@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build:
+  login-azire-with-oidc:
     docker:
       - image: cimg/azure:2023.07
     steps:
@@ -10,14 +10,14 @@ jobs:
           command: |
             az login \
                 --service-principal \
-                -u "${AZURE_CLIENT_ID}" \
-                -t "${AZURE_TENANT_ID}" \
+                --user "${AZURE_CLIENT_ID}" \
+                --tenant "${AZURE_TENANT_ID}" \
                 --federated-token "${CIRCLE_OIDC_TOKEN}"
       - run: az vm list
 
 workflows:
   run:
     jobs:
-      - build:
+      - login-azire-with-oidc:
           context:
             - oidc-azure

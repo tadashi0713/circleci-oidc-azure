@@ -5,12 +5,14 @@ jobs:
     docker:
       - image: cimg/azure:2023.07
     steps:
-      - run: |
-          az login \
-              --service-principal \
-              -u "${AZURE_CLIENT_ID}" \
-              -t "${AZURE_TENANT_ID}" \
-              --federated-token "${CIRCLE_OIDC_TOKEN}"
+      - run:
+          name: az login using OIDC
+          command: |
+            az login \
+                --service-principal \
+                -u "${AZURE_CLIENT_ID}" \
+                -t "${AZURE_TENANT_ID}" \
+                --federated-token "${CIRCLE_OIDC_TOKEN}"
       - run: az vm list
 
 workflows:
